@@ -1,0 +1,113 @@
+swagger: '2.0'
+info:
+  title: Library API
+  version: '1.0'
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /books:
+    get:
+      summary: Get list of all books.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              books:
+                type: array
+                items:
+                  $ref: '#/definitions/book'
+
+    post:
+      summary: Create book record.
+      parameters:
+        - in: body
+          name: body
+          schema:
+            $ref: '#/definitions/book'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/book'
+
+  /books/{id}:
+    get:
+      summary: Returns book by id.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: book id
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/book'
+
+    patch:
+      summary: Update book record.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: book id
+        - in: body
+          name: bookUpdate
+          required: true
+          schema:
+            type: object
+            properties:
+              rating:
+                type: string
+              status:
+                type: string
+      responses:
+        200:
+          description: OK
+
+    delete:
+      summary: Delete book record.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: book id
+      responses:
+        200:
+          description: OK
+
+definitions:
+  book:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      author:
+        type: string
+      publisher:
+        type: string
+      publication_date:
+        type: string
+      rating:
+        type: string
+        enum: [ rate1, rate2, rate3 ]
+      status:
+        type: string
+        enum: [ checked_in, checked_out ]
+    required:
+      - title
+      - author
+      - publisher
+      - publication_date
