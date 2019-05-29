@@ -17,40 +17,40 @@ import (
 	models "github.com/ixoja/library/internal/models"
 )
 
-// GetBooksHandlerFunc turns a function with the right signature into a get books handler
-type GetBooksHandlerFunc func(GetBooksParams) middleware.Responder
+// GetAllBooksHandlerFunc turns a function with the right signature into a get all books handler
+type GetAllBooksHandlerFunc func(GetAllBooksParams) middleware.Responder
 
 // Handle executing the request and returning a response
-func (fn GetBooksHandlerFunc) Handle(params GetBooksParams) middleware.Responder {
+func (fn GetAllBooksHandlerFunc) Handle(params GetAllBooksParams) middleware.Responder {
 	return fn(params)
 }
 
-// GetBooksHandler interface for that can handle valid get books params
-type GetBooksHandler interface {
-	Handle(GetBooksParams) middleware.Responder
+// GetAllBooksHandler interface for that can handle valid get all books params
+type GetAllBooksHandler interface {
+	Handle(GetAllBooksParams) middleware.Responder
 }
 
-// NewGetBooks creates a new http.Handler for the get books operation
-func NewGetBooks(ctx *middleware.Context, handler GetBooksHandler) *GetBooks {
-	return &GetBooks{Context: ctx, Handler: handler}
+// NewGetAllBooks creates a new http.Handler for the get all books operation
+func NewGetAllBooks(ctx *middleware.Context, handler GetAllBooksHandler) *GetAllBooks {
+	return &GetAllBooks{Context: ctx, Handler: handler}
 }
 
-/*GetBooks swagger:route GET /books getBooks
+/*GetAllBooks swagger:route GET /books getAllBooks
 
 Get list of all books.
 
 */
-type GetBooks struct {
+type GetAllBooks struct {
 	Context *middleware.Context
-	Handler GetBooksHandler
+	Handler GetAllBooksHandler
 }
 
-func (o *GetBooks) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+func (o *GetAllBooks) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
 		r = rCtx
 	}
-	var Params = NewGetBooksParams()
+	var Params = NewGetAllBooksParams()
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
@@ -63,16 +63,16 @@ func (o *GetBooks) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 
 }
 
-// GetBooksOKBody get books o k body
-// swagger:model GetBooksOKBody
-type GetBooksOKBody struct {
+// GetAllBooksOKBody get all books o k body
+// swagger:model GetAllBooksOKBody
+type GetAllBooksOKBody struct {
 
 	// books
 	Books []*models.Book `json:"books"`
 }
 
-// Validate validates this get books o k body
-func (o *GetBooksOKBody) Validate(formats strfmt.Registry) error {
+// Validate validates this get all books o k body
+func (o *GetAllBooksOKBody) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := o.validateBooks(formats); err != nil {
@@ -85,7 +85,7 @@ func (o *GetBooksOKBody) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (o *GetBooksOKBody) validateBooks(formats strfmt.Registry) error {
+func (o *GetAllBooksOKBody) validateBooks(formats strfmt.Registry) error {
 
 	if swag.IsZero(o.Books) { // not required
 		return nil
@@ -99,7 +99,7 @@ func (o *GetBooksOKBody) validateBooks(formats strfmt.Registry) error {
 		if o.Books[i] != nil {
 			if err := o.Books[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("getBooksOK" + "." + "books" + "." + strconv.Itoa(i))
+					return ve.ValidateName("getAllBooksOK" + "." + "books" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -111,7 +111,7 @@ func (o *GetBooksOKBody) validateBooks(formats strfmt.Registry) error {
 }
 
 // MarshalBinary interface implementation
-func (o *GetBooksOKBody) MarshalBinary() ([]byte, error) {
+func (o *GetAllBooksOKBody) MarshalBinary() ([]byte, error) {
 	if o == nil {
 		return nil, nil
 	}
@@ -119,8 +119,8 @@ func (o *GetBooksOKBody) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (o *GetBooksOKBody) UnmarshalBinary(b []byte) error {
-	var res GetBooksOKBody
+func (o *GetAllBooksOKBody) UnmarshalBinary(b []byte) error {
+	var res GetAllBooksOKBody
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

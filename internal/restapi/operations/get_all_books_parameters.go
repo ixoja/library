@@ -12,18 +12,18 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 )
 
-// NewGetBooksParams creates a new GetBooksParams object
+// NewGetAllBooksParams creates a new GetAllBooksParams object
 // no default values defined in spec.
-func NewGetBooksParams() GetBooksParams {
+func NewGetAllBooksParams() GetAllBooksParams {
 
-	return GetBooksParams{}
+	return GetAllBooksParams{}
 }
 
-// GetBooksParams contains all the bound params for the get books operation
+// GetAllBooksParams contains all the bound params for the get all books operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters GetBooks
-type GetBooksParams struct {
+// swagger:parameters getAllBooks
+type GetAllBooksParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -32,8 +32,8 @@ type GetBooksParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewGetBooksParams() beforehand.
-func (o *GetBooksParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewGetAllBooksParams() beforehand.
+func (o *GetAllBooksParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r

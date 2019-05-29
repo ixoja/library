@@ -12,6 +12,7 @@ produces:
 paths:
   /books:
     get:
+      operationId: getAllBooks
       summary: Get list of all books.
       responses:
         200:
@@ -25,6 +26,7 @@ paths:
                   $ref: '#/definitions/book'
 
     post:
+      operationId: createBook
       summary: Create book record.
       parameters:
         - in: body
@@ -39,6 +41,7 @@ paths:
 
   /books/{id}:
     get:
+      operationId: getBook
       summary: Returns book by id.
       parameters:
         - in: path
@@ -53,6 +56,7 @@ paths:
             $ref: '#/definitions/book'
 
     patch:
+      operationId: updateBook
       summary: Update book record.
       parameters:
         - in: path
@@ -75,6 +79,7 @@ paths:
           description: OK
 
     delete:
+      operationId: deleteBook
       summary: Delete book record.
       parameters:
         - in: path

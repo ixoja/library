@@ -14,18 +14,18 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewGetBooksIDParams creates a new GetBooksIDParams object
+// NewDeleteBookParams creates a new DeleteBookParams object
 // no default values defined in spec.
-func NewGetBooksIDParams() GetBooksIDParams {
+func NewDeleteBookParams() DeleteBookParams {
 
-	return GetBooksIDParams{}
+	return DeleteBookParams{}
 }
 
-// GetBooksIDParams contains all the bound params for the get books ID operation
+// DeleteBookParams contains all the bound params for the delete book operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters GetBooksID
-type GetBooksIDParams struct {
+// swagger:parameters deleteBook
+type DeleteBookParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -40,8 +40,8 @@ type GetBooksIDParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewGetBooksIDParams() beforehand.
-func (o *GetBooksIDParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewDeleteBookParams() beforehand.
+func (o *DeleteBookParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -58,7 +58,7 @@ func (o *GetBooksIDParams) BindRequest(r *http.Request, route *middleware.Matche
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *GetBooksIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *DeleteBookParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

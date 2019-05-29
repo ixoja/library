@@ -13,14 +13,14 @@ import (
 	models "github.com/ixoja/library/internal/models"
 )
 
-// GetBooksIDOKCode is the HTTP code returned for type GetBooksIDOK
-const GetBooksIDOKCode int = 200
+// GetBookOKCode is the HTTP code returned for type GetBookOK
+const GetBookOKCode int = 200
 
-/*GetBooksIDOK OK
+/*GetBookOK OK
 
-swagger:response getBooksIdOK
+swagger:response getBookOK
 */
-type GetBooksIDOK struct {
+type GetBookOK struct {
 
 	/*
 	  In: Body
@@ -28,25 +28,25 @@ type GetBooksIDOK struct {
 	Payload *models.Book `json:"body,omitempty"`
 }
 
-// NewGetBooksIDOK creates GetBooksIDOK with default headers values
-func NewGetBooksIDOK() *GetBooksIDOK {
+// NewGetBookOK creates GetBookOK with default headers values
+func NewGetBookOK() *GetBookOK {
 
-	return &GetBooksIDOK{}
+	return &GetBookOK{}
 }
 
-// WithPayload adds the payload to the get books Id o k response
-func (o *GetBooksIDOK) WithPayload(payload *models.Book) *GetBooksIDOK {
+// WithPayload adds the payload to the get book o k response
+func (o *GetBookOK) WithPayload(payload *models.Book) *GetBookOK {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the get books Id o k response
-func (o *GetBooksIDOK) SetPayload(payload *models.Book) {
+// SetPayload sets the payload to the get book o k response
+func (o *GetBookOK) SetPayload(payload *models.Book) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *GetBooksIDOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *GetBookOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
 	if o.Payload != nil {

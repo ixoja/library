@@ -16,18 +16,18 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewPatchBooksIDParams creates a new PatchBooksIDParams object
+// NewUpdateBookParams creates a new UpdateBookParams object
 // no default values defined in spec.
-func NewPatchBooksIDParams() PatchBooksIDParams {
+func NewUpdateBookParams() UpdateBookParams {
 
-	return PatchBooksIDParams{}
+	return UpdateBookParams{}
 }
 
-// PatchBooksIDParams contains all the bound params for the patch books ID operation
+// UpdateBookParams contains all the bound params for the update book operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters PatchBooksID
-type PatchBooksIDParams struct {
+// swagger:parameters updateBook
+type UpdateBookParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -36,7 +36,7 @@ type PatchBooksIDParams struct {
 	  Required: true
 	  In: body
 	*/
-	BookUpdate PatchBooksIDBody
+	BookUpdate UpdateBookBody
 	/*book id
 	  Required: true
 	  In: path
@@ -47,15 +47,15 @@ type PatchBooksIDParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPatchBooksIDParams() beforehand.
-func (o *PatchBooksIDParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewUpdateBookParams() beforehand.
+func (o *UpdateBookParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
 
 	if runtime.HasBody(r) {
 		defer r.Body.Close()
-		var body PatchBooksIDBody
+		var body UpdateBookBody
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
 				res = append(res, errors.Required("bookUpdate", "body"))
@@ -87,7 +87,7 @@ func (o *PatchBooksIDParams) BindRequest(r *http.Request, route *middleware.Matc
 }
 
 // bindID binds and validates parameter ID from path.
-func (o *PatchBooksIDParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *UpdateBookParams) bindID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

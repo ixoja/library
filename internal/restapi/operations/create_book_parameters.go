@@ -15,18 +15,18 @@ import (
 	models "github.com/ixoja/library/internal/models"
 )
 
-// NewPostBooksParams creates a new PostBooksParams object
+// NewCreateBookParams creates a new CreateBookParams object
 // no default values defined in spec.
-func NewPostBooksParams() PostBooksParams {
+func NewCreateBookParams() CreateBookParams {
 
-	return PostBooksParams{}
+	return CreateBookParams{}
 }
 
-// PostBooksParams contains all the bound params for the post books operation
+// CreateBookParams contains all the bound params for the create book operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters PostBooks
-type PostBooksParams struct {
+// swagger:parameters createBook
+type CreateBookParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -40,8 +40,8 @@ type PostBooksParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPostBooksParams() beforehand.
-func (o *PostBooksParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewCreateBookParams() beforehand.
+func (o *CreateBookParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r

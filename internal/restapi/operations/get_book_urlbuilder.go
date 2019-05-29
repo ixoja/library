@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-// DeleteBooksIDURL generates an URL for the delete books ID operation
-type DeleteBooksIDURL struct {
+// GetBookURL generates an URL for the get book operation
+type GetBookURL struct {
 	ID string
 
 	_basePath string
@@ -24,7 +24,7 @@ type DeleteBooksIDURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *DeleteBooksIDURL) WithBasePath(bp string) *DeleteBooksIDURL {
+func (o *GetBookURL) WithBasePath(bp string) *GetBookURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -32,12 +32,12 @@ func (o *DeleteBooksIDURL) WithBasePath(bp string) *DeleteBooksIDURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *DeleteBooksIDURL) SetBasePath(bp string) {
+func (o *GetBookURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *DeleteBooksIDURL) Build() (*url.URL, error) {
+func (o *GetBookURL) Build() (*url.URL, error) {
 	var _result url.URL
 
 	var _path = "/books/{id}"
@@ -46,7 +46,7 @@ func (o *DeleteBooksIDURL) Build() (*url.URL, error) {
 	if id != "" {
 		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("id is required on DeleteBooksIDURL")
+		return nil, errors.New("id is required on GetBookURL")
 	}
 
 	_basePath := o._basePath
@@ -56,7 +56,7 @@ func (o *DeleteBooksIDURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *DeleteBooksIDURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetBookURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -67,17 +67,17 @@ func (o *DeleteBooksIDURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *DeleteBooksIDURL) String() string {
+func (o *GetBookURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *DeleteBooksIDURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetBookURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on DeleteBooksIDURL")
+		return nil, errors.New("scheme is required for a full url on GetBookURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on DeleteBooksIDURL")
+		return nil, errors.New("host is required for a full url on GetBookURL")
 	}
 
 	base, err := o.Build()
@@ -91,6 +91,6 @@ func (o *DeleteBooksIDURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *DeleteBooksIDURL) StringFull(scheme, host string) string {
+func (o *GetBookURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

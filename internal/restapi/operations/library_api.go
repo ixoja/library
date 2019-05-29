@@ -37,20 +37,20 @@ func NewLibraryAPI(spec *loads.Document) *LibraryAPI {
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
-		DeleteBooksIDHandler: DeleteBooksIDHandlerFunc(func(params DeleteBooksIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation DeleteBooksID has not yet been implemented")
+		CreateBookHandler: CreateBookHandlerFunc(func(params CreateBookParams) middleware.Responder {
+			return middleware.NotImplemented("operation CreateBook has not yet been implemented")
 		}),
-		GetBooksHandler: GetBooksHandlerFunc(func(params GetBooksParams) middleware.Responder {
-			return middleware.NotImplemented("operation GetBooks has not yet been implemented")
+		DeleteBookHandler: DeleteBookHandlerFunc(func(params DeleteBookParams) middleware.Responder {
+			return middleware.NotImplemented("operation DeleteBook has not yet been implemented")
 		}),
-		GetBooksIDHandler: GetBooksIDHandlerFunc(func(params GetBooksIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation GetBooksID has not yet been implemented")
+		GetAllBooksHandler: GetAllBooksHandlerFunc(func(params GetAllBooksParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetAllBooks has not yet been implemented")
 		}),
-		PatchBooksIDHandler: PatchBooksIDHandlerFunc(func(params PatchBooksIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation PatchBooksID has not yet been implemented")
+		GetBookHandler: GetBookHandlerFunc(func(params GetBookParams) middleware.Responder {
+			return middleware.NotImplemented("operation GetBook has not yet been implemented")
 		}),
-		PostBooksHandler: PostBooksHandlerFunc(func(params PostBooksParams) middleware.Responder {
-			return middleware.NotImplemented("operation PostBooks has not yet been implemented")
+		UpdateBookHandler: UpdateBookHandlerFunc(func(params UpdateBookParams) middleware.Responder {
+			return middleware.NotImplemented("operation UpdateBook has not yet been implemented")
 		}),
 	}
 }
@@ -83,16 +83,16 @@ type LibraryAPI struct {
 	// JSONProducer registers a producer for a "application/json" mime type
 	JSONProducer runtime.Producer
 
-	// DeleteBooksIDHandler sets the operation handler for the delete books ID operation
-	DeleteBooksIDHandler DeleteBooksIDHandler
-	// GetBooksHandler sets the operation handler for the get books operation
-	GetBooksHandler GetBooksHandler
-	// GetBooksIDHandler sets the operation handler for the get books ID operation
-	GetBooksIDHandler GetBooksIDHandler
-	// PatchBooksIDHandler sets the operation handler for the patch books ID operation
-	PatchBooksIDHandler PatchBooksIDHandler
-	// PostBooksHandler sets the operation handler for the post books operation
-	PostBooksHandler PostBooksHandler
+	// CreateBookHandler sets the operation handler for the create book operation
+	CreateBookHandler CreateBookHandler
+	// DeleteBookHandler sets the operation handler for the delete book operation
+	DeleteBookHandler DeleteBookHandler
+	// GetAllBooksHandler sets the operation handler for the get all books operation
+	GetAllBooksHandler GetAllBooksHandler
+	// GetBookHandler sets the operation handler for the get book operation
+	GetBookHandler GetBookHandler
+	// UpdateBookHandler sets the operation handler for the update book operation
+	UpdateBookHandler UpdateBookHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -156,24 +156,24 @@ func (o *LibraryAPI) Validate() error {
 		unregistered = append(unregistered, "JSONProducer")
 	}
 
-	if o.DeleteBooksIDHandler == nil {
-		unregistered = append(unregistered, "DeleteBooksIDHandler")
+	if o.CreateBookHandler == nil {
+		unregistered = append(unregistered, "CreateBookHandler")
 	}
 
-	if o.GetBooksHandler == nil {
-		unregistered = append(unregistered, "GetBooksHandler")
+	if o.DeleteBookHandler == nil {
+		unregistered = append(unregistered, "DeleteBookHandler")
 	}
 
-	if o.GetBooksIDHandler == nil {
-		unregistered = append(unregistered, "GetBooksIDHandler")
+	if o.GetAllBooksHandler == nil {
+		unregistered = append(unregistered, "GetAllBooksHandler")
 	}
 
-	if o.PatchBooksIDHandler == nil {
-		unregistered = append(unregistered, "PatchBooksIDHandler")
+	if o.GetBookHandler == nil {
+		unregistered = append(unregistered, "GetBookHandler")
 	}
 
-	if o.PostBooksHandler == nil {
-		unregistered = append(unregistered, "PostBooksHandler")
+	if o.UpdateBookHandler == nil {
+		unregistered = append(unregistered, "UpdateBookHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -274,30 +274,30 @@ func (o *LibraryAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/books"] = NewCreateBook(o.context, o.CreateBookHandler)
+
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/books/{id}"] = NewDeleteBooksID(o.context, o.DeleteBooksIDHandler)
+	o.handlers["DELETE"]["/books/{id}"] = NewDeleteBook(o.context, o.DeleteBookHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/books"] = NewGetBooks(o.context, o.GetBooksHandler)
+	o.handlers["GET"]["/books"] = NewGetAllBooks(o.context, o.GetAllBooksHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/books/{id}"] = NewGetBooksID(o.context, o.GetBooksIDHandler)
+	o.handlers["GET"]["/books/{id}"] = NewGetBook(o.context, o.GetBookHandler)
 
 	if o.handlers["PATCH"] == nil {
 		o.handlers["PATCH"] = make(map[string]http.Handler)
 	}
-	o.handlers["PATCH"]["/books/{id}"] = NewPatchBooksID(o.context, o.PatchBooksIDHandler)
-
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/books"] = NewPostBooks(o.context, o.PostBooksHandler)
+	o.handlers["PATCH"]["/books/{id}"] = NewUpdateBook(o.context, o.UpdateBookHandler)
 
 }
 

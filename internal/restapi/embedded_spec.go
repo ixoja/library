@@ -36,6 +36,7 @@ func init() {
     "/books": {
       "get": {
         "summary": "Get list of all books.",
+        "operationId": "getAllBooks",
         "responses": {
           "200": {
             "description": "OK",
@@ -55,6 +56,7 @@ func init() {
       },
       "post": {
         "summary": "Create book record.",
+        "operationId": "createBook",
         "parameters": [
           {
             "name": "body",
@@ -77,6 +79,7 @@ func init() {
     "/books/{id}": {
       "get": {
         "summary": "Returns book by id.",
+        "operationId": "getBook",
         "parameters": [
           {
             "type": "string",
@@ -97,6 +100,7 @@ func init() {
       },
       "delete": {
         "summary": "Delete book record.",
+        "operationId": "deleteBook",
         "parameters": [
           {
             "type": "string",
@@ -114,6 +118,7 @@ func init() {
       },
       "patch": {
         "summary": "Update book record.",
+        "operationId": "updateBook",
         "parameters": [
           {
             "type": "string",
@@ -210,6 +215,7 @@ func init() {
     "/books": {
       "get": {
         "summary": "Get list of all books.",
+        "operationId": "getAllBooks",
         "responses": {
           "200": {
             "description": "OK",
@@ -229,6 +235,7 @@ func init() {
       },
       "post": {
         "summary": "Create book record.",
+        "operationId": "createBook",
         "parameters": [
           {
             "name": "body",
@@ -251,6 +258,7 @@ func init() {
     "/books/{id}": {
       "get": {
         "summary": "Returns book by id.",
+        "operationId": "getBook",
         "parameters": [
           {
             "type": "string",
@@ -271,6 +279,7 @@ func init() {
       },
       "delete": {
         "summary": "Delete book record.",
+        "operationId": "deleteBook",
         "parameters": [
           {
             "type": "string",
@@ -288,6 +297,7 @@ func init() {
       },
       "patch": {
         "summary": "Update book record.",
+        "operationId": "updateBook",
         "parameters": [
           {
             "type": "string",

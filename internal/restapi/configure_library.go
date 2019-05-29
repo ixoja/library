@@ -4,6 +4,7 @@ package restapi
 
 import (
 	"crypto/tls"
+	"github.com/ixoja/library/internal/handler"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
@@ -33,29 +34,29 @@ func configureAPI(api *operations.LibraryAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.DeleteBooksIDHandler == nil {
-		api.DeleteBooksIDHandler = operations.DeleteBooksIDHandlerFunc(func(params operations.DeleteBooksIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation .DeleteBooksID has not yet been implemented")
+	if api.CreateBookHandler == nil {
+		api.CreateBookHandler = operations.CreateBookHandlerFunc(func(params operations.CreateBookParams) middleware.Responder {
+			return handler.CreateBookHandler(params)
 		})
 	}
-	if api.GetBooksHandler == nil {
-		api.GetBooksHandler = operations.GetBooksHandlerFunc(func(params operations.GetBooksParams) middleware.Responder {
-			return middleware.NotImplemented("operation .GetBooks has not yet been implemented")
+	if api.DeleteBookHandler == nil {
+		api.DeleteBookHandler = operations.DeleteBookHandlerFunc(func(params operations.DeleteBookParams) middleware.Responder {
+			return handler.DeleteBookHandler(params)
 		})
 	}
-	if api.GetBooksIDHandler == nil {
-		api.GetBooksIDHandler = operations.GetBooksIDHandlerFunc(func(params operations.GetBooksIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation .GetBooksID has not yet been implemented")
+	if api.GetAllBooksHandler == nil {
+		api.GetAllBooksHandler = operations.GetAllBooksHandlerFunc(func(params operations.GetAllBooksParams) middleware.Responder {
+			return handler.GetAllBooksHandler(params)
 		})
 	}
-	if api.PatchBooksIDHandler == nil {
-		api.PatchBooksIDHandler = operations.PatchBooksIDHandlerFunc(func(params operations.PatchBooksIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation .PatchBooksID has not yet been implemented")
+	if api.GetBookHandler == nil {
+		api.GetBookHandler = operations.GetBookHandlerFunc(func(params operations.GetBookParams) middleware.Responder {
+			return handler.GetBookHandler(params)
 		})
 	}
-	if api.PostBooksHandler == nil {
-		api.PostBooksHandler = operations.PostBooksHandlerFunc(func(params operations.PostBooksParams) middleware.Responder {
-			return middleware.NotImplemented("operation .PostBooks has not yet been implemented")
+	if api.UpdateBookHandler == nil {
+		api.UpdateBookHandler = operations.UpdateBookHandlerFunc(func(params operations.UpdateBookParams) middleware.Responder {
+			return handler.UpdateBookHandler(params)
 		})
 	}
 

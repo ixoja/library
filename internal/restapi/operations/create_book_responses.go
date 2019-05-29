@@ -13,14 +13,14 @@ import (
 	models "github.com/ixoja/library/internal/models"
 )
 
-// PostBooksOKCode is the HTTP code returned for type PostBooksOK
-const PostBooksOKCode int = 200
+// CreateBookOKCode is the HTTP code returned for type CreateBookOK
+const CreateBookOKCode int = 200
 
-/*PostBooksOK OK
+/*CreateBookOK OK
 
-swagger:response postBooksOK
+swagger:response createBookOK
 */
-type PostBooksOK struct {
+type CreateBookOK struct {
 
 	/*
 	  In: Body
@@ -28,25 +28,25 @@ type PostBooksOK struct {
 	Payload *models.Book `json:"body,omitempty"`
 }
 
-// NewPostBooksOK creates PostBooksOK with default headers values
-func NewPostBooksOK() *PostBooksOK {
+// NewCreateBookOK creates CreateBookOK with default headers values
+func NewCreateBookOK() *CreateBookOK {
 
-	return &PostBooksOK{}
+	return &CreateBookOK{}
 }
 
-// WithPayload adds the payload to the post books o k response
-func (o *PostBooksOK) WithPayload(payload *models.Book) *PostBooksOK {
+// WithPayload adds the payload to the create book o k response
+func (o *CreateBookOK) WithPayload(payload *models.Book) *CreateBookOK {
 	o.Payload = payload
 	return o
 }
 
-// SetPayload sets the payload to the post books o k response
-func (o *PostBooksOK) SetPayload(payload *models.Book) {
+// SetPayload sets the payload to the create book o k response
+func (o *CreateBookOK) SetPayload(payload *models.Book) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
-func (o *PostBooksOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+func (o *CreateBookOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
 	if o.Payload != nil {
