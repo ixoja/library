@@ -4,7 +4,11 @@ package restapi
 
 import (
 	"crypto/tls"
+	"database/sql"
+	"github.com/ixoja/library/internal/controller"
 	"github.com/ixoja/library/internal/handler"
+	"github.com/ixoja/library/internal/storage"
+	"log"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
@@ -21,6 +25,24 @@ func configureFlags(api *operations.LibraryAPI) {
 }
 
 func configureAPI(api *operations.LibraryAPI) http.Handler {
+	db, err := sql.Open("sqlite3", "./shorten.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Println("failed to start db connection:", err.Error())
+		}
+	}()
+
+	st := storage.New(db)
+	if err := st.InitDB(); err != nil {
+		log.Fatalf("failed to init db: %v", err)
+	}
+
+	c := controller.New(st)
+	h := handler.New(c)
+
 	// configure the api here
 	api.ServeError = errors.ServeError
 
@@ -36,27 +58,27 @@ func configureAPI(api *operations.LibraryAPI) http.Handler {
 
 	if api.CreateBookHandler == nil {
 		api.CreateBookHandler = operations.CreateBookHandlerFunc(func(params operations.CreateBookParams) middleware.Responder {
-			return handler.CreateBookHandler(params)
+			return h.CreateBookHandler(params)
 		})
 	}
 	if api.DeleteBookHandler == nil {
 		api.DeleteBookHandler = operations.DeleteBookHandlerFunc(func(params operations.DeleteBookParams) middleware.Responder {
-			return handler.DeleteBookHandler(params)
+			return h.DeleteBookHandler(params)
 		})
 	}
 	if api.GetAllBooksHandler == nil {
 		api.GetAllBooksHandler = operations.GetAllBooksHandlerFunc(func(params operations.GetAllBooksParams) middleware.Responder {
-			return handler.GetAllBooksHandler(params)
+			return h.GetAllBooksHandler(params)
 		})
 	}
 	if api.GetBookHandler == nil {
 		api.GetBookHandler = operations.GetBookHandlerFunc(func(params operations.GetBookParams) middleware.Responder {
-			return handler.GetBookHandler(params)
+			return h.GetBookHandler(params)
 		})
 	}
 	if api.UpdateBookHandler == nil {
 		api.UpdateBookHandler = operations.UpdateBookHandlerFunc(func(params operations.UpdateBookParams) middleware.Responder {
-			return handler.UpdateBookHandler(params)
+			return h.UpdateBookHandler(params)
 		})
 	}
 

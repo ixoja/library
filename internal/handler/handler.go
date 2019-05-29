@@ -19,6 +19,10 @@ type Handler struct {
 	Controller *BookController
 }
 
+func New(c BookController) *Handler {
+	return &Handler{Controller: &c}
+}
+
 func (h *Handler) CreateBookHandler(p operations.CreateBookParams) middleware.Responder {
 
 	return &operations.CreateBookOK{Payload: &models.Book{}}

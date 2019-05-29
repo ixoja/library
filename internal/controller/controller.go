@@ -13,6 +13,11 @@ type Storage interface {
 }
 
 type Controller struct {
+	Storage Storage
+}
+
+func New(s Storage) *Controller {
+	return &Controller{Storage: s}
 }
 
 func (c Controller) Create(book *models.Book) (*models.Book, error) {
