@@ -2,25 +2,40 @@ package handler
 
 import (
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/ixoja/library/internal/models"
 	"github.com/ixoja/library/internal/restapi/operations"
 )
 
-func CreateBookHandler(p operations.CreateBookParams) middleware.Responder {
-	return nil
+type BookController interface{
+	Create(book *models.Book) (*models.Book, error)
+	Delete(id string) error
+	Get(id string) (*models.Book, error)
+	GetAll() ([]*models.Book, error)
+	Rate(id, rate string) error
+	Update(id, status string) error
 }
 
-func DeleteBookHandler(p operations.DeleteBookParams) middleware.Responder {
-	return nil
+type Handler struct {
+	Controller *BookController
 }
 
-func GetAllBooksHandler(p operations.GetAllBooksParams) middleware.Responder {
-	return nil
+func (h *Handler) CreateBookHandler(p operations.CreateBookParams) middleware.Responder {
+
+	return &operations.CreateBookOK{Payload: &models.Book{}}
 }
 
-func GetBookHandler(p operations.GetBookParams) middleware.Responder {
-	return nil
+func (h *Handler) DeleteBookHandler(p operations.DeleteBookParams) middleware.Responder {
+	return &operations.DeleteBookOK{}
 }
 
-func UpdateBookHandler(p operations.UpdateBookParams) middleware.Responder {
-	return nil
+func (h *Handler) GetAllBooksHandler(p operations.GetAllBooksParams) middleware.Responder {
+	return &operations.GetAllBooksOK{Payload: &operations.GetAllBooksOKBody{Books: []*models.Book{}}}
+}
+
+func (h *Handler) GetBookHandler(p operations.GetBookParams) middleware.Responder {
+	return &operations.GetBookOK{Payload: &models.Book{}}
+}
+
+func (h *Handler) UpdateBookHandler(p operations.UpdateBookParams) middleware.Responder {
+	return &operations.UpdateBookOK{}
 }
