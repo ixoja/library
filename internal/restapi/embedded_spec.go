@@ -51,6 +51,12 @@ func init() {
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -71,6 +77,18 @@ func init() {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/book"
+            }
+          },
+          "400": {
+            "description": "Bad argument.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
             }
           }
         }
@@ -95,6 +113,18 @@ func init() {
             "schema": {
               "$ref": "#/definitions/book"
             }
+          },
+          "404": {
+            "description": "Not found.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -113,6 +143,18 @@ func init() {
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not found.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -135,7 +177,7 @@ func init() {
               "type": "object",
               "properties": {
                 "rating": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "status": {
                   "type": "string"
@@ -147,6 +189,24 @@ func init() {
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad argument.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       }
@@ -169,7 +229,8 @@ func init() {
           "type": "string"
         },
         "publication_date": {
-          "type": "string"
+          "type": "string",
+          "format": "date"
         },
         "publisher": {
           "type": "string"
@@ -190,6 +251,14 @@ func init() {
           ]
         },
         "title": {
+          "type": "string"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "message": {
           "type": "string"
         }
       }
@@ -230,6 +299,12 @@ func init() {
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -250,6 +325,18 @@ func init() {
             "description": "OK",
             "schema": {
               "$ref": "#/definitions/book"
+            }
+          },
+          "400": {
+            "description": "Bad argument.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
             }
           }
         }
@@ -274,6 +361,18 @@ func init() {
             "schema": {
               "$ref": "#/definitions/book"
             }
+          },
+          "404": {
+            "description": "Not found.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -292,6 +391,18 @@ func init() {
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "Not found.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       },
@@ -314,7 +425,7 @@ func init() {
               "type": "object",
               "properties": {
                 "rating": {
-                  "type": "string"
+                  "type": "integer"
                 },
                 "status": {
                   "type": "string"
@@ -326,6 +437,24 @@ func init() {
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad argument.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "404": {
+            "description": "Not found.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
+          "500": {
+            "description": "Internal error.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
           }
         }
       }
@@ -348,7 +477,8 @@ func init() {
           "type": "string"
         },
         "publication_date": {
-          "type": "string"
+          "type": "string",
+          "format": "date"
         },
         "publisher": {
           "type": "string"
@@ -369,6 +499,14 @@ func init() {
           ]
         },
         "title": {
+          "type": "string"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "message": {
           "type": "string"
         }
       }

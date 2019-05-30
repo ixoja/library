@@ -28,7 +28,8 @@ type Book struct {
 
 	// publication date
 	// Required: true
-	PublicationDate *string `json:"publication_date"`
+	// Format: date
+	PublicationDate *strfmt.Date `json:"publication_date"`
 
 	// publisher
 	// Required: true
@@ -93,6 +94,10 @@ func (m *Book) validateAuthor(formats strfmt.Registry) error {
 func (m *Book) validatePublicationDate(formats strfmt.Registry) error {
 
 	if err := validate.Required("publication_date", "body", m.PublicationDate); err != nil {
+		return err
+	}
+
+	if err := validate.FormatOf("publication_date", "body", "date", m.PublicationDate.String(), formats); err != nil {
 		return err
 	}
 

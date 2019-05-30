@@ -64,7 +64,7 @@ func (o *UpdateBook) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 type UpdateBookBody struct {
 
 	// rating
-	Rating string `json:"rating,omitempty"`
+	Rating int64 `json:"rating,omitempty"`
 
 	// status
 	Status string `json:"status,omitempty"`

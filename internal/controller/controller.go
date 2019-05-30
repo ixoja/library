@@ -36,10 +36,10 @@ func (c Controller) GetAll() ([]*models.Book, error) {
 	return nil, nil
 }
 
-func (c Controller) Rate(id, rate string) error {
+func (c Controller) Rate(id string, rate int) error {
 	return nil
 }
 
-func (c Controller) Update(id, status string) error {
+func (c Controller) UpdateStatus(id, status string) error {
 	return nil
 }

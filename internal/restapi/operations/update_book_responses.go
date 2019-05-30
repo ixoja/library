@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ixoja/library/internal/models"
 )
 
 // UpdateBookOKCode is the HTTP code returned for type UpdateBookOK
@@ -33,4 +35,136 @@ func (o *UpdateBookOK) WriteResponse(rw http.ResponseWriter, producer runtime.Pr
 	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
 
 	rw.WriteHeader(200)
+}
+
+// UpdateBookBadRequestCode is the HTTP code returned for type UpdateBookBadRequest
+const UpdateBookBadRequestCode int = 400
+
+/*UpdateBookBadRequest Bad argument.
+
+swagger:response updateBookBadRequest
+*/
+type UpdateBookBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewUpdateBookBadRequest creates UpdateBookBadRequest with default headers values
+func NewUpdateBookBadRequest() *UpdateBookBadRequest {
+
+	return &UpdateBookBadRequest{}
+}
+
+// WithPayload adds the payload to the update book bad request response
+func (o *UpdateBookBadRequest) WithPayload(payload *models.Error) *UpdateBookBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update book bad request response
+func (o *UpdateBookBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateBookBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(400)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// UpdateBookNotFoundCode is the HTTP code returned for type UpdateBookNotFound
+const UpdateBookNotFoundCode int = 404
+
+/*UpdateBookNotFound Not found.
+
+swagger:response updateBookNotFound
+*/
+type UpdateBookNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewUpdateBookNotFound creates UpdateBookNotFound with default headers values
+func NewUpdateBookNotFound() *UpdateBookNotFound {
+
+	return &UpdateBookNotFound{}
+}
+
+// WithPayload adds the payload to the update book not found response
+func (o *UpdateBookNotFound) WithPayload(payload *models.Error) *UpdateBookNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update book not found response
+func (o *UpdateBookNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateBookNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// UpdateBookInternalServerErrorCode is the HTTP code returned for type UpdateBookInternalServerError
+const UpdateBookInternalServerErrorCode int = 500
+
+/*UpdateBookInternalServerError Internal error.
+
+swagger:response updateBookInternalServerError
+*/
+type UpdateBookInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewUpdateBookInternalServerError creates UpdateBookInternalServerError with default headers values
+func NewUpdateBookInternalServerError() *UpdateBookInternalServerError {
+
+	return &UpdateBookInternalServerError{}
+}
+
+// WithPayload adds the payload to the update book internal server error response
+func (o *UpdateBookInternalServerError) WithPayload(payload *models.Error) *UpdateBookInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update book internal server error response
+func (o *UpdateBookInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateBookInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

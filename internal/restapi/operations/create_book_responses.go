@@ -56,3 +56,91 @@ func (o *CreateBookOK) WriteResponse(rw http.ResponseWriter, producer runtime.Pr
 		}
 	}
 }
+
+// CreateBookBadRequestCode is the HTTP code returned for type CreateBookBadRequest
+const CreateBookBadRequestCode int = 400
+
+/*CreateBookBadRequest Bad argument.
+
+swagger:response createBookBadRequest
+*/
+type CreateBookBadRequest struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewCreateBookBadRequest creates CreateBookBadRequest with default headers values
+func NewCreateBookBadRequest() *CreateBookBadRequest {
+
+	return &CreateBookBadRequest{}
+}
+
+// WithPayload adds the payload to the create book bad request response
+func (o *CreateBookBadRequest) WithPayload(payload *models.Error) *CreateBookBadRequest {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the create book bad request response
+func (o *CreateBookBadRequest) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *CreateBookBadRequest) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(400)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// CreateBookInternalServerErrorCode is the HTTP code returned for type CreateBookInternalServerError
+const CreateBookInternalServerErrorCode int = 500
+
+/*CreateBookInternalServerError Internal error.
+
+swagger:response createBookInternalServerError
+*/
+type CreateBookInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewCreateBookInternalServerError creates CreateBookInternalServerError with default headers values
+func NewCreateBookInternalServerError() *CreateBookInternalServerError {
+
+	return &CreateBookInternalServerError{}
+}
+
+// WithPayload adds the payload to the create book internal server error response
+func (o *CreateBookInternalServerError) WithPayload(payload *models.Error) *CreateBookInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the create book internal server error response
+func (o *CreateBookInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *CreateBookInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

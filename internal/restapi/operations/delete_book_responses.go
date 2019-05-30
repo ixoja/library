@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ixoja/library/internal/models"
 )
 
 // DeleteBookOKCode is the HTTP code returned for type DeleteBookOK
@@ -33,4 +35,92 @@ func (o *DeleteBookOK) WriteResponse(rw http.ResponseWriter, producer runtime.Pr
 	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
 
 	rw.WriteHeader(200)
+}
+
+// DeleteBookNotFoundCode is the HTTP code returned for type DeleteBookNotFound
+const DeleteBookNotFoundCode int = 404
+
+/*DeleteBookNotFound Not found.
+
+swagger:response deleteBookNotFound
+*/
+type DeleteBookNotFound struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewDeleteBookNotFound creates DeleteBookNotFound with default headers values
+func NewDeleteBookNotFound() *DeleteBookNotFound {
+
+	return &DeleteBookNotFound{}
+}
+
+// WithPayload adds the payload to the delete book not found response
+func (o *DeleteBookNotFound) WithPayload(payload *models.Error) *DeleteBookNotFound {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the delete book not found response
+func (o *DeleteBookNotFound) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *DeleteBookNotFound) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(404)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// DeleteBookInternalServerErrorCode is the HTTP code returned for type DeleteBookInternalServerError
+const DeleteBookInternalServerErrorCode int = 500
+
+/*DeleteBookInternalServerError Internal error.
+
+swagger:response deleteBookInternalServerError
+*/
+type DeleteBookInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewDeleteBookInternalServerError creates DeleteBookInternalServerError with default headers values
+func NewDeleteBookInternalServerError() *DeleteBookInternalServerError {
+
+	return &DeleteBookInternalServerError{}
+}
+
+// WithPayload adds the payload to the delete book internal server error response
+func (o *DeleteBookInternalServerError) WithPayload(payload *models.Error) *DeleteBookInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the delete book internal server error response
+func (o *DeleteBookInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *DeleteBookInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
 }

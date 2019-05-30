@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/ixoja/library/internal/models"
 )
 
 // GetAllBooksOKCode is the HTTP code returned for type GetAllBooksOK
@@ -47,6 +49,50 @@ func (o *GetAllBooksOK) SetPayload(payload *GetAllBooksOKBody) {
 func (o *GetAllBooksOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
 	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
+// GetAllBooksInternalServerErrorCode is the HTTP code returned for type GetAllBooksInternalServerError
+const GetAllBooksInternalServerErrorCode int = 500
+
+/*GetAllBooksInternalServerError Internal error.
+
+swagger:response getAllBooksInternalServerError
+*/
+type GetAllBooksInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewGetAllBooksInternalServerError creates GetAllBooksInternalServerError with default headers values
+func NewGetAllBooksInternalServerError() *GetAllBooksInternalServerError {
+
+	return &GetAllBooksInternalServerError{}
+}
+
+// WithPayload adds the payload to the get all books internal server error response
+func (o *GetAllBooksInternalServerError) WithPayload(payload *models.Error) *GetAllBooksInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get all books internal server error response
+func (o *GetAllBooksInternalServerError) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *GetAllBooksInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
 	if o.Payload != nil {
 		payload := o.Payload
 		if err := producer.Produce(rw, payload); err != nil {
