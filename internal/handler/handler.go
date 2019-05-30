@@ -7,6 +7,7 @@ import (
 	"github.com/ixoja/library/internal/restapi/operations"
 )
 
+//go:generate mockery -case=underscore -name BookController
 type BookController interface {
 	Create(book *models.Book) (*models.Book, error)
 	Delete(id string) error
@@ -25,18 +26,12 @@ func New(c BookController) *Handler {
 }
 
 func (h *Handler) CreateBookHandler(p operations.CreateBookParams) middleware.Responder {
-	if p.Body == nil || p.Body.Author == nil ||
-		p.Body.PublicationDate == nil || p.Body.Publisher == nil || p.Body.Title == nil {
+	if p.Book == nil || p.Book.Author == nil ||
+		p.Book.PublicationDate == nil || p.Book.Publisher == nil || p.Book.Title == nil {
 		return &operations.CreateBookBadRequest{Payload: &models.Error{Message: "book and its fields cannot be null"}}
 	}
 
-	newBook, err := h.Controller.Create(&models.Book{
-		Title:           p.Body.Title,
-		Author:          p.Body.Author,
-		Publisher:       p.Body.Publisher,
-		PublicationDate: p.Body.PublicationDate,
-	})
-
+	newBook, err := h.Controller.Create(p.Book)
 	if err != nil {
 		return &operations.CreateBookInternalServerError{Payload: &models.Error{Message: err.Error()}}
 	}
@@ -52,7 +47,7 @@ func (h *Handler) GetAllBooksHandler(p operations.GetAllBooksParams) middleware.
 }
 
 func (h *Handler) GetBookHandler(p operations.GetBookParams) middleware.Responder {
-	book, err := h.Controller.Get(p.ID)
+	book, err := h.Controller.Get(p.ID.String())
 	switch err {
 	case nil:
 		return &operations.GetBookOK{Payload: book}
@@ -65,20 +60,26 @@ func (h *Handler) GetBookHandler(p operations.GetBookParams) middleware.Responde
 
 func (h *Handler) UpdateBookHandler(p operations.UpdateBookParams) middleware.Responder {
 	if p.BookUpdate.Rating != 0 {
-		switch err := h.Controller.Rate(p.ID, int(p.BookUpdate.Rating)); err {
+		switch err := h.Controller.Rate(p.ID.String(), int(p.BookUpdate.Rating)); err {
 		case nil:
 		case controller.ErrNotFound:
 			return &operations.UpdateBookNotFound{Payload: &models.Error{Message: err.Error()}}
+		case controller.ErrBadArgument:
+			return &operations.UpdateBookBadRequest{Payload: &models.Error{Message: err.Error()}}
 		default:
 			return &operations.UpdateBookInternalServerError{Payload: &models.Error{Message: err.Error()}}
 		}
 	}
 
 	if p.BookUpdate.Status != "" {
-		switch err := h.Controller.UpdateStatus(p.ID, p.BookUpdate.Status); err {
+		switch err := h.Controller.UpdateStatus(p.ID.String(), p.BookUpdate.Status); err {
 		case nil:
 		case controller.ErrNotFound:
 			return &operations.UpdateBookNotFound{Payload: &models.Error{Message: err.Error()}}
+		case controller.ErrConflict:
+			return &operations.UpdateBookConflict{Payload: &models.Error{Message: err.Error()}}
+		case controller.ErrBadArgument:
+			return &operations.UpdateBookBadRequest{Payload: &models.Error{Message: err.Error()}}
 		default:
 			return &operations.UpdateBookInternalServerError{Payload: &models.Error{Message: err.Error()}}
 		}
@@ -88,7 +89,7 @@ func (h *Handler) UpdateBookHandler(p operations.UpdateBookParams) middleware.Re
 }
 
 func (h *Handler) DeleteBookHandler(p operations.DeleteBookParams) middleware.Responder {
-	switch err := h.Controller.Delete(p.ID); err {
+	switch err := h.Controller.Delete(p.ID.String()); err {
 	case nil:
 		return &operations.DeleteBookOK{}
 	case controller.ErrNotFound:

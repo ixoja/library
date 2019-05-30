@@ -65,7 +65,7 @@ func init() {
         "operationId": "createBook",
         "parameters": [
           {
-            "name": "body",
+            "name": "book",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/book"
@@ -101,6 +101,7 @@ func init() {
         "parameters": [
           {
             "type": "string",
+            "format": "uuid",
             "description": "book id",
             "name": "id",
             "in": "path",
@@ -134,6 +135,7 @@ func init() {
         "parameters": [
           {
             "type": "string",
+            "format": "uuid",
             "description": "book id",
             "name": "id",
             "in": "path",
@@ -164,6 +166,7 @@ func init() {
         "parameters": [
           {
             "type": "string",
+            "format": "uuid",
             "description": "book id",
             "name": "id",
             "in": "path",
@@ -202,6 +205,12 @@ func init() {
               "$ref": "#/definitions/error"
             }
           },
+          "409": {
+            "description": "Conflict.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
           "500": {
             "description": "Internal error.",
             "schema": {
@@ -226,7 +235,8 @@ func init() {
           "type": "string"
         },
         "id": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "publication_date": {
           "type": "string",
@@ -313,7 +323,7 @@ func init() {
         "operationId": "createBook",
         "parameters": [
           {
-            "name": "body",
+            "name": "book",
             "in": "body",
             "schema": {
               "$ref": "#/definitions/book"
@@ -349,6 +359,7 @@ func init() {
         "parameters": [
           {
             "type": "string",
+            "format": "uuid",
             "description": "book id",
             "name": "id",
             "in": "path",
@@ -382,6 +393,7 @@ func init() {
         "parameters": [
           {
             "type": "string",
+            "format": "uuid",
             "description": "book id",
             "name": "id",
             "in": "path",
@@ -412,6 +424,7 @@ func init() {
         "parameters": [
           {
             "type": "string",
+            "format": "uuid",
             "description": "book id",
             "name": "id",
             "in": "path",
@@ -450,6 +463,12 @@ func init() {
               "$ref": "#/definitions/error"
             }
           },
+          "409": {
+            "description": "Conflict.",
+            "schema": {
+              "$ref": "#/definitions/error"
+            }
+          },
           "500": {
             "description": "Internal error.",
             "schema": {
@@ -474,7 +493,8 @@ func init() {
           "type": "string"
         },
         "id": {
-          "type": "string"
+          "type": "string",
+          "format": "uuid"
         },
         "publication_date": {
           "type": "string",

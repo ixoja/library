@@ -24,7 +24,8 @@ type Book struct {
 	Author *string `json:"author"`
 
 	// id
-	ID string `json:"id,omitempty"`
+	// Format: uuid
+	ID strfmt.UUID `json:"id,omitempty"`
 
 	// publication date
 	// Required: true
@@ -53,6 +54,10 @@ func (m *Book) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAuthor(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -85,6 +90,19 @@ func (m *Book) Validate(formats strfmt.Registry) error {
 func (m *Book) validateAuthor(formats strfmt.Registry) error {
 
 	if err := validate.Required("author", "body", m.Author); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *Book) validateID(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.ID) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("id", "body", "uuid", m.ID.String(), formats); err != nil {
 		return err
 	}
 

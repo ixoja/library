@@ -10,11 +10,13 @@ import (
 	"net/url"
 	golangswaggerpaths "path"
 	"strings"
+
+	"github.com/go-openapi/strfmt"
 )
 
 // GetBookURL generates an URL for the get book operation
 type GetBookURL struct {
-	ID string
+	ID strfmt.UUID
 
 	_basePath string
 	// avoid unkeyed usage
@@ -42,7 +44,7 @@ func (o *GetBookURL) Build() (*url.URL, error) {
 
 	var _path = "/books/{id}"
 
-	id := o.ID
+	id := o.ID.String()
 	if id != "" {
 		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {

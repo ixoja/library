@@ -34,7 +34,7 @@ paths:
       summary: Create book record.
       parameters:
         - in: body
-          name: body
+          name: book
           schema:
             $ref: '#/definitions/book'
       responses:
@@ -60,6 +60,7 @@ paths:
           name: id
           required: true
           type: string
+          format: uuid
           description: book id
       responses:
         200:
@@ -83,6 +84,7 @@ paths:
           name: id
           required: true
           type: string
+          format: uuid
           description: book id
         - in: body
           name: bookUpdate
@@ -105,6 +107,10 @@ paths:
           description: Not found.
           schema:
             $ref: "#/definitions/error"
+        409:
+          description: Conflict.
+          schema:
+            $ref: "#/definitions/error"
         500:
           description: Internal error.
           schema:
@@ -118,6 +124,7 @@ paths:
           name: id
           required: true
           type: string
+          format: uuid
           description: book id
       responses:
         200:
@@ -137,6 +144,7 @@ definitions:
     properties:
       id:
         type: string
+        format: uuid
       title:
         type: string
       author:

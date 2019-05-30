@@ -125,6 +125,50 @@ func (o *UpdateBookNotFound) WriteResponse(rw http.ResponseWriter, producer runt
 	}
 }
 
+// UpdateBookConflictCode is the HTTP code returned for type UpdateBookConflict
+const UpdateBookConflictCode int = 409
+
+/*UpdateBookConflict Conflict.
+
+swagger:response updateBookConflict
+*/
+type UpdateBookConflict struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.Error `json:"body,omitempty"`
+}
+
+// NewUpdateBookConflict creates UpdateBookConflict with default headers values
+func NewUpdateBookConflict() *UpdateBookConflict {
+
+	return &UpdateBookConflict{}
+}
+
+// WithPayload adds the payload to the update book conflict response
+func (o *UpdateBookConflict) WithPayload(payload *models.Error) *UpdateBookConflict {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the update book conflict response
+func (o *UpdateBookConflict) SetPayload(payload *models.Error) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *UpdateBookConflict) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(409)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
+
 // UpdateBookInternalServerErrorCode is the HTTP code returned for type UpdateBookInternalServerError
 const UpdateBookInternalServerErrorCode int = 500
 

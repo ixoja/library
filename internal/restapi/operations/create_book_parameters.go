@@ -34,7 +34,7 @@ type CreateBookParams struct {
 	/*
 	  In: body
 	*/
-	Body *models.Book
+	Book *models.Book
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -50,7 +50,7 @@ func (o *CreateBookParams) BindRequest(r *http.Request, route *middleware.Matche
 		defer r.Body.Close()
 		var body models.Book
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
-			res = append(res, errors.NewParseError("body", "body", "", err))
+			res = append(res, errors.NewParseError("book", "body", "", err))
 		} else {
 			// validate body object
 			if err := body.Validate(route.Formats); err != nil {
@@ -58,7 +58,7 @@ func (o *CreateBookParams) BindRequest(r *http.Request, route *middleware.Matche
 			}
 
 			if len(res) == 0 {
-				o.Body = &body
+				o.Book = &body
 			}
 		}
 	}
