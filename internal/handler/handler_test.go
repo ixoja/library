@@ -263,21 +263,6 @@ func TestUpdateBookHandler(t *testing.T) {
 				res.(*operations.UpdateBookInternalServerError))
 			c.AssertExpectations(t)
 		})
-
-		t.Run("bad argument", func(t *testing.T) {
-			c := mocks.BookController{}
-			h := Handler{&c}
-			id := id()
-			rate := 1
-			err := controller.ErrBadArgument
-
-			c.On("Rate", id.String(), rate).Return(err)
-			res := h.UpdateBookHandler(
-				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: int64(rate)}})
-			assert.Equal(t, &operations.UpdateBookBadRequest{Payload: &models.Error{Message: err.Error()}},
-				res.(*operations.UpdateBookBadRequest))
-			c.AssertExpectations(t)
-		})
 	})
 
 	t.Run("update status error", func(t *testing.T) {
@@ -311,7 +296,7 @@ func TestUpdateBookHandler(t *testing.T) {
 			c.AssertExpectations(t)
 		})
 
-		t.Run("internal", func(t *testing.T) {
+		t.Run("conflict", func(t *testing.T) {
 			c := mocks.BookController{}
 			h := Handler{&c}
 			id := id()
@@ -323,21 +308,6 @@ func TestUpdateBookHandler(t *testing.T) {
 				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Status: status}})
 			assert.Equal(t, &operations.UpdateBookConflict{Payload: &models.Error{Message: err.Error()}},
 				res.(*operations.UpdateBookConflict))
-			c.AssertExpectations(t)
-		})
-
-		t.Run("bad argument", func(t *testing.T) {
-			c := mocks.BookController{}
-			h := Handler{&c}
-			id := id()
-			err := controller.ErrBadArgument
-			status := models.BookStatusCheckedIn
-
-			c.On("UpdateStatus", id.String(), status).Return(err)
-			res := h.UpdateBookHandler(
-				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Status: status}})
-			assert.Equal(t, &operations.UpdateBookBadRequest{Payload: &models.Error{Message: err.Error()}},
-				res.(*operations.UpdateBookBadRequest))
 			c.AssertExpectations(t)
 		})
 	})

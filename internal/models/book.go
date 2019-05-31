@@ -37,8 +37,7 @@ type Book struct {
 	Publisher *string `json:"publisher"`
 
 	// rating
-	// Enum: [rate1 rate2 rate3]
-	Rating string `json:"rating,omitempty"`
+	Rating *BookRating `json:"rating,omitempty"`
 
 	// status
 	// Enum: [checked_in checked_out]
@@ -131,47 +130,19 @@ func (m *Book) validatePublisher(formats strfmt.Registry) error {
 	return nil
 }
 
-var bookTypeRatingPropEnum []interface{}
-
-func init() {
-	var res []string
-	if err := json.Unmarshal([]byte(`["rate1","rate2","rate3"]`), &res); err != nil {
-		panic(err)
-	}
-	for _, v := range res {
-		bookTypeRatingPropEnum = append(bookTypeRatingPropEnum, v)
-	}
-}
-
-const (
-
-	// BookRatingRate1 captures enum value "rate1"
-	BookRatingRate1 string = "rate1"
-
-	// BookRatingRate2 captures enum value "rate2"
-	BookRatingRate2 string = "rate2"
-
-	// BookRatingRate3 captures enum value "rate3"
-	BookRatingRate3 string = "rate3"
-)
-
-// prop value enum
-func (m *Book) validateRatingEnum(path, location string, value string) error {
-	if err := validate.Enum(path, location, value, bookTypeRatingPropEnum); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (m *Book) validateRating(formats strfmt.Registry) error {
 
 	if swag.IsZero(m.Rating) { // not required
 		return nil
 	}
 
-	// value enum
-	if err := m.validateRatingEnum("rating", "body", m.Rating); err != nil {
-		return err
+	if m.Rating != nil {
+		if err := m.Rating.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("rating")
+			}
+			return err
+		}
 	}
 
 	return nil
@@ -240,6 +211,99 @@ func (m *Book) MarshalBinary() ([]byte, error) {
 // UnmarshalBinary interface implementation
 func (m *Book) UnmarshalBinary(b []byte) error {
 	var res Book
+	if err := swag.ReadJSON(b, &res); err != nil {
+		return err
+	}
+	*m = res
+	return nil
+}
+
+// BookRating book rating
+// swagger:model BookRating
+type BookRating struct {
+
+	// rate
+	// Enum: [rate1 rate2 rate3]
+	Rate string `json:"rate,omitempty"`
+
+	// rate precise
+	RatePrecise float64 `json:"rate_precise,omitempty"`
+
+	// rates count
+	RatesCount int64 `json:"rates_count,omitempty"`
+}
+
+// Validate validates this book rating
+func (m *BookRating) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateRate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+var bookRatingTypeRatePropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["rate1","rate2","rate3"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		bookRatingTypeRatePropEnum = append(bookRatingTypeRatePropEnum, v)
+	}
+}
+
+const (
+
+	// BookRatingRateRate1 captures enum value "rate1"
+	BookRatingRateRate1 string = "rate1"
+
+	// BookRatingRateRate2 captures enum value "rate2"
+	BookRatingRateRate2 string = "rate2"
+
+	// BookRatingRateRate3 captures enum value "rate3"
+	BookRatingRateRate3 string = "rate3"
+)
+
+// prop value enum
+func (m *BookRating) validateRateEnum(path, location string, value string) error {
+	if err := validate.Enum(path, location, value, bookRatingTypeRatePropEnum); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (m *BookRating) validateRate(formats strfmt.Registry) error {
+
+	if swag.IsZero(m.Rate) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := m.validateRateEnum("rating"+"."+"rate", "body", m.Rate); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// MarshalBinary interface implementation
+func (m *BookRating) MarshalBinary() ([]byte, error) {
+	if m == nil {
+		return nil, nil
+	}
+	return swag.WriteJSON(m)
+}
+
+// UnmarshalBinary interface implementation
+func (m *BookRating) UnmarshalBinary(b []byte) error {
+	var res BookRating
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

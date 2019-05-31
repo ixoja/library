@@ -180,10 +180,16 @@ func init() {
               "type": "object",
               "properties": {
                 "rating": {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 3,
+                  "minimum": 1
                 },
                 "status": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "checked_in",
+                    "checked_out"
+                  ]
                 }
               }
             }
@@ -246,12 +252,23 @@ func init() {
           "type": "string"
         },
         "rating": {
-          "type": "string",
-          "enum": [
-            "rate1",
-            "rate2",
-            "rate3"
-          ]
+          "type": "object",
+          "properties": {
+            "rate": {
+              "type": "string",
+              "enum": [
+                "rate1",
+                "rate2",
+                "rate3"
+              ]
+            },
+            "rate_precise": {
+              "type": "number"
+            },
+            "rates_count": {
+              "type": "integer"
+            }
+          }
         },
         "status": {
           "type": "string",
@@ -438,10 +455,16 @@ func init() {
               "type": "object",
               "properties": {
                 "rating": {
-                  "type": "integer"
+                  "type": "integer",
+                  "maximum": 3,
+                  "minimum": 1
                 },
                 "status": {
-                  "type": "string"
+                  "type": "string",
+                  "enum": [
+                    "checked_in",
+                    "checked_out"
+                  ]
                 }
               }
             }
@@ -504,12 +527,23 @@ func init() {
           "type": "string"
         },
         "rating": {
-          "type": "string",
-          "enum": [
-            "rate1",
-            "rate2",
-            "rate3"
-          ]
+          "type": "object",
+          "properties": {
+            "rate": {
+              "type": "string",
+              "enum": [
+                "rate1",
+                "rate2",
+                "rate3"
+              ]
+            },
+            "rate_precise": {
+              "type": "number"
+            },
+            "rates_count": {
+              "type": "integer"
+            }
+          }
         },
         "status": {
           "type": "string",

@@ -6,11 +6,14 @@ package operations
 // Editing this file might prove futile when you re-run the generate command
 
 import (
+	"encoding/json"
 	"net/http"
 
+	errors "github.com/go-openapi/errors"
 	middleware "github.com/go-openapi/runtime/middleware"
 	strfmt "github.com/go-openapi/strfmt"
 	swag "github.com/go-openapi/swag"
+	validate "github.com/go-openapi/validate"
 )
 
 // UpdateBookHandlerFunc turns a function with the right signature into a update book handler
@@ -64,14 +67,90 @@ func (o *UpdateBook) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 type UpdateBookBody struct {
 
 	// rating
+	// Maximum: 3
+	// Minimum: 1
 	Rating int64 `json:"rating,omitempty"`
 
 	// status
+	// Enum: [checked_in checked_out]
 	Status string `json:"status,omitempty"`
 }
 
 // Validate validates this update book body
 func (o *UpdateBookBody) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.validateRating(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := o.validateStatus(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *UpdateBookBody) validateRating(formats strfmt.Registry) error {
+
+	if swag.IsZero(o.Rating) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("bookUpdate"+"."+"rating", "body", int64(o.Rating), 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("bookUpdate"+"."+"rating", "body", int64(o.Rating), 3, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+var updateBookBodyTypeStatusPropEnum []interface{}
+
+func init() {
+	var res []string
+	if err := json.Unmarshal([]byte(`["checked_in","checked_out"]`), &res); err != nil {
+		panic(err)
+	}
+	for _, v := range res {
+		updateBookBodyTypeStatusPropEnum = append(updateBookBodyTypeStatusPropEnum, v)
+	}
+}
+
+const (
+
+	// UpdateBookBodyStatusCheckedIn captures enum value "checked_in"
+	UpdateBookBodyStatusCheckedIn string = "checked_in"
+
+	// UpdateBookBodyStatusCheckedOut captures enum value "checked_out"
+	UpdateBookBodyStatusCheckedOut string = "checked_out"
+)
+
+// prop value enum
+func (o *UpdateBookBody) validateStatusEnum(path, location string, value string) error {
+	if err := validate.Enum(path, location, value, updateBookBodyTypeStatusPropEnum); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *UpdateBookBody) validateStatus(formats strfmt.Registry) error {
+
+	if swag.IsZero(o.Status) { // not required
+		return nil
+	}
+
+	// value enum
+	if err := o.validateStatusEnum("bookUpdate"+"."+"status", "body", o.Status); err != nil {
+		return err
+	}
+
 	return nil
 }
 

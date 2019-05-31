@@ -4,18 +4,16 @@ package restapi
 
 import (
 	"crypto/tls"
-	"database/sql"
-	"github.com/ixoja/library/internal/controller"
-	"github.com/ixoja/library/internal/handler"
-	"github.com/ixoja/library/internal/storage"
-	"log"
+	"github.com/patrickmn/go-cache"
 	"net/http"
 
-	errors "github.com/go-openapi/errors"
-	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
-
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
+	"github.com/ixoja/library/internal/controller"
+	"github.com/ixoja/library/internal/handler"
 	"github.com/ixoja/library/internal/restapi/operations"
+	"github.com/ixoja/library/internal/storage"
 )
 
 //go:generate swagger generate server --target ..\..\internal --name Library --spec ..\api\spec.yaml
@@ -25,20 +23,9 @@ func configureFlags(api *operations.LibraryAPI) {
 }
 
 func configureAPI(api *operations.LibraryAPI) http.Handler {
-	db, err := sql.Open("sqlite3", "./shorten.db")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		if err := db.Close(); err != nil {
-			log.Println("failed to start db connection:", err.Error())
-		}
-	}()
+	db := cache.New(cache.NoExpiration, cache.NoExpiration)
 
 	st := storage.New(db)
-	if err := st.InitDB(); err != nil {
-		log.Fatalf("failed to init db: %v", err)
-	}
 
 	c := controller.New(st)
 	h := handler.New(c)

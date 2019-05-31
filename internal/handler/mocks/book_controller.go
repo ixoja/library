@@ -94,11 +94,11 @@ func (_m *BookController) GetAll() ([]*models.Book, error) {
 }
 
 // Rate provides a mock function with given fields: id, rate
-func (_m *BookController) Rate(id string, rate int) error {
+func (_m *BookController) Rate(id string, rate int64) error {
 	ret := _m.Called(id, rate)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, int) error); ok {
+	if rf, ok := ret.Get(0).(func(string, int64) error); ok {
 		r0 = rf(id, rate)
 	} else {
 		r0 = ret.Error(0)
