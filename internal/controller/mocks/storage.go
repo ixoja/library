@@ -10,34 +10,6 @@ type Storage struct {
 	mock.Mock
 }
 
-// CheckIn provides a mock function with given fields: id
-func (_m *Storage) CheckIn(id string) error {
-	ret := _m.Called(id)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(string) error); ok {
-		r0 = rf(id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
-// CheckOut provides a mock function with given fields: id
-func (_m *Storage) CheckOut(id string) error {
-	ret := _m.Called(id)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(string) error); ok {
-		r0 = rf(id)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // Create provides a mock function with given fields: book
 func (_m *Storage) Create(book *models.Book) (*models.Book, error) {
 	ret := _m.Called(book)
@@ -88,14 +60,21 @@ func (_m *Storage) Get(id string) (*models.Book, bool, error) {
 		}
 	}
 
-	var r1 error
-	if rf, ok := ret.Get(1).(func(string) error); ok {
+	var r1 bool
+	if rf, ok := ret.Get(1).(func(string) bool); ok {
 		r1 = rf(id)
 	} else {
-		r1 = ret.Error(1)
+		r1 = ret.Get(1).(bool)
 	}
 
-	return r0, false, r1
+	var r2 error
+	if rf, ok := ret.Get(2).(func(string) error); ok {
+		r2 = rf(id)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
 }
 
 // GetAll provides a mock function with given fields:
@@ -121,13 +100,13 @@ func (_m *Storage) GetAll() ([]*models.Book, error) {
 	return r0, r1
 }
 
-// Rate provides a mock function with given fields: id, rate
-func (_m *Storage) Rate(id string, rate int) error {
-	ret := _m.Called(id, rate)
+// Update provides a mock function with given fields: book
+func (_m *Storage) Update(book *models.Book) error {
+	ret := _m.Called(book)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, int) error); ok {
-		r0 = rf(id, rate)
+	if rf, ok := ret.Get(0).(func(*models.Book) error); ok {
+		r0 = rf(book)
 	} else {
 		r0 = ret.Error(0)
 	}

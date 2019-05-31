@@ -5,11 +5,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-const (
-	lowestRate = 1
-	highestRate = 3
-)
-
 //go:generate mockery -case=underscore -name Storage
 type Storage interface {
 	Create(book *models.Book) (*models.Book, error)
