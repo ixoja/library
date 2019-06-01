@@ -108,7 +108,7 @@ func rateString(rate float64) string {
 }
 
 func avgRate(currentRate, count, newRate float64) float64 {
-	return float64((count-1)/count*currentRate + newRate/count)
+	return (count-1)/count*currentRate + newRate/count
 }
 
 func (c Controller) UpdateStatus(id, status string) error {
