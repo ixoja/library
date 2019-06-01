@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+//TODO implement transactions
 //go:generate mockery -case=underscore -name Storage
 type Storage interface {
 	Create(book *models.Book) (*models.Book, error)
@@ -33,7 +34,7 @@ func (c Controller) Create(book *models.Book) (*models.Book, error) {
 func (c Controller) Delete(id string) error {
 	_, ok, err := c.Storage.Get(id)
 	if err != nil {
-		return errors.Wrap(err, "failed to get book")
+		return errors.Wrap(ErrInternal, err.Error())
 	}
 	if !ok {
 		return ErrNotFound
@@ -48,7 +49,7 @@ func (c Controller) Delete(id string) error {
 func (c Controller) Get(id string) (*models.Book, error) {
 	book, ok, err := c.Storage.Get(id)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get book")
+		return nil, errors.Wrap(ErrInternal, err.Error())
 	}
 	if !ok {
 		return nil, ErrNotFound
@@ -59,7 +60,7 @@ func (c Controller) Get(id string) (*models.Book, error) {
 func (c Controller) GetAll() ([]*models.Book, error) {
 	books, err := c.Storage.GetAll()
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get all books")
+		return nil, errors.Wrap(ErrInternal, err.Error())
 	}
 
 	return books, nil
@@ -68,7 +69,7 @@ func (c Controller) GetAll() ([]*models.Book, error) {
 func (c Controller) Rate(id string, rate int64) error {
 	book, ok, err := c.Storage.Get(id)
 	if err != nil {
-		return errors.Wrap(err, "failed to get book")
+		return errors.Wrap(ErrInternal, err.Error())
 	}
 	if !ok {
 		return ErrNotFound
@@ -78,22 +79,32 @@ func (c Controller) Rate(id string, rate int64) error {
 		book.Rating = &models.BookRating{}
 	}
 
-	book.Rating.RatesCount++
-	book.Rating.RatePrecise = avgRate(book.Rating.RatePrecise, float64(book.Rating.RatesCount), float64(rate))
-	switch int(book.Rating.RatePrecise) {
-	case 1:
-		book.Rating.Rate = models.BookRatingRateRate1
-	case 2:
-		book.Rating.Rate = models.BookRatingRateRate2
-	case 3:
-		book.Rating.Rate = models.BookRatingRateRate3
-	}
+	rateBook(book, rate)
 
 	if err := c.Storage.Update(book); err != nil {
-		return errors.Wrap(err, "failed to rate book")
+		return errors.Wrap(ErrInternal, err.Error())
 	}
 
 	return nil
+}
+
+func rateBook(book *models.Book, rate int64) {
+	book.Rating.RatesCount++
+	book.Rating.RatePrecise = avgRate(book.Rating.RatePrecise, float64(book.Rating.RatesCount), float64(rate))
+	book.Rating.Rate = rateString(book.Rating.RatePrecise)
+}
+
+func rateString(rate float64) string {
+	switch int(rate) {
+	case 1:
+		return models.BookRatingRateRate1
+	case 2:
+		return models.BookRatingRateRate2
+	case 3:
+		return models.BookRatingRateRate3
+	}
+
+	return ""
 }
 
 func avgRate(currentRate, count, newRate float64) float64 {
@@ -103,7 +114,7 @@ func avgRate(currentRate, count, newRate float64) float64 {
 func (c Controller) UpdateStatus(id, status string) error {
 	book, ok, err := c.Storage.Get(id)
 	if err != nil {
-		return errors.Wrap(err, "failed to get book")
+		return errors.Wrap(ErrInternal, err.Error())
 	}
 	if !ok {
 		return ErrNotFound
@@ -112,7 +123,7 @@ func (c Controller) UpdateStatus(id, status string) error {
 	if book.Status != status {
 		book.Status = status
 		if err := c.Storage.Update(book); err != nil {
-			return errors.Wrap(err, "failed to update book")
+			return errors.Wrap(ErrInternal, err.Error())
 		}
 	} else if book.Status == models.BookStatusCheckedIn {
 		return errors.Wrap(ErrConflict, "failed to check in book: it's already checked in")
