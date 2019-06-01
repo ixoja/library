@@ -8,7 +8,7 @@ import (
 //TODO implement transactions
 //go:generate mockery -case=underscore -name Storage
 type Storage interface {
-	Create(book *models.Book) (*models.Book, error)
+	Save(book *models.Book) (*models.Book, error)
 	Delete(id string) error
 	Get(id string) (*models.Book, bool, error)
 	GetAll() ([]*models.Book, error)
@@ -24,7 +24,7 @@ func New(s Storage) *Controller {
 }
 
 func (c Controller) Create(book *models.Book) (*models.Book, error) {
-	newBook, err := c.Storage.Create(book)
+	newBook, err := c.Storage.Save(book)
 	if err != nil {
 		return nil, errors.Wrap(ErrInternal, err.Error())
 	}

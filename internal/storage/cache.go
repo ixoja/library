@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/google/uuid"
 	"github.com/ixoja/library/internal/models"
@@ -15,7 +16,7 @@ func New(cache *cache.Cache) *Cache {
 	return &Cache{Storage: cache}
 }
 
-func (s *Cache) Create(book *models.Book) (*models.Book, error) {
+func (s *Cache) Save(book *models.Book) (*models.Book, error) {
 	book.ID = strfmt.UUID(uuid.New().String())
 	s.Storage.SetDefault(string(book.ID), book)
 	return book, nil
@@ -46,6 +47,9 @@ func (s *Cache) GetAll() ([]*models.Book, error) {
 }
 
 func (s *Cache) Update(book *models.Book) error {
+	if book.ID == "" {
+		return errors.New("cannot update book with empty id")
+	}
 	s.Storage.SetDefault(string(book.ID), book)
 	return nil
 }

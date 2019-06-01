@@ -71,7 +71,7 @@ func TestCreateBookHandler(t *testing.T) {
 			PublicationDate: &date,
 		}
 
-		c.On("Create", &book).Return(nil, controller.ErrInternal)
+		c.On("Save", &book).Return(nil, controller.ErrInternal)
 		res := h.CreateBookHandler(operations.CreateBookParams{Book: &book})
 		assert.IsType(t, &operations.CreateBookInternalServerError{}, res)
 		c.AssertExpectations(t)
@@ -93,7 +93,7 @@ func TestCreateBookHandler(t *testing.T) {
 		retBook := book
 		retBook.ID = id()
 
-		c.On("Create", &book).Return(&retBook, nil)
+		c.On("Save", &book).Return(&retBook, nil)
 		res := h.CreateBookHandler(operations.CreateBookParams{Book: &book})
 		assert.Equal(t, &operations.CreateBookOK{Payload: &retBook}, res.(*operations.CreateBookOK))
 		c.AssertExpectations(t)

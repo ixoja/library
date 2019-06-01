@@ -10,29 +10,6 @@ type Storage struct {
 	mock.Mock
 }
 
-// Create provides a mock function with given fields: book
-func (_m *Storage) Create(book *models.Book) (*models.Book, error) {
-	ret := _m.Called(book)
-
-	var r0 *models.Book
-	if rf, ok := ret.Get(0).(func(*models.Book) *models.Book); ok {
-		r0 = rf(book)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*models.Book)
-		}
-	}
-
-	var r1 error
-	if rf, ok := ret.Get(1).(func(*models.Book) error); ok {
-		r1 = rf(book)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // Delete provides a mock function with given fields: id
 func (_m *Storage) Delete(id string) error {
 	ret := _m.Called(id)
@@ -93,6 +70,29 @@ func (_m *Storage) GetAll() ([]*models.Book, error) {
 	var r1 error
 	if rf, ok := ret.Get(1).(func() error); ok {
 		r1 = rf()
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Save provides a mock function with given fields: book
+func (_m *Storage) Save(book *models.Book) (*models.Book, error) {
+	ret := _m.Called(book)
+
+	var r0 *models.Book
+	if rf, ok := ret.Get(0).(func(*models.Book) *models.Book); ok {
+		r0 = rf(book)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*models.Book)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(*models.Book) error); ok {
+		r1 = rf(book)
 	} else {
 		r1 = ret.Error(1)
 	}

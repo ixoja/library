@@ -30,7 +30,7 @@ func TestController_Create(t *testing.T) {
 			PublicationDate: &date,
 		}
 
-		s.On("Create", &book).Return(nil, errors.New("message"))
+		s.On("Save", &book).Return(nil, errors.New("message"))
 		_, err := c.Create(&book)
 		assert.Equal(t, ErrInternal, errors.Cause(err))
 		s.AssertExpectations(t)
@@ -52,7 +52,7 @@ func TestController_Create(t *testing.T) {
 		retBook := book
 		retBook.ID = id()
 
-		s.On("Create", &book).Return(&retBook, nil)
+		s.On("Save", &book).Return(&retBook, nil)
 		res, err := c.Create(&book)
 		require.NoError(t, err)
 		assert.Equal(t, &retBook, res)
