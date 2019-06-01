@@ -256,9 +256,9 @@ func TestController_Rate(t *testing.T) {
 			Publisher:       &publisher,
 			PublicationDate: &date,
 			Rating: &models.BookRating{
-				RatesCount: int64(rand.Intn(20)),
+				RatesCount:  int64(rand.Intn(20)),
 				RatePrecise: ratePrecise,
-				Rate: rateString(ratePrecise),
+				Rate:        rateString(ratePrecise),
 			},
 		}
 
@@ -322,7 +322,7 @@ func TestController_UpdateStatus(t *testing.T) {
 			Author:          &author,
 			Publisher:       &publisher,
 			PublicationDate: &date,
-			Status: models.BookStatusCheckedIn,
+			Status:          models.BookStatusCheckedIn,
 		}
 
 		s.On("Get", id).Return(book, true, nil)
@@ -346,7 +346,7 @@ func TestController_UpdateStatus(t *testing.T) {
 			Author:          &author,
 			Publisher:       &publisher,
 			PublicationDate: &date,
-			Status: models.BookStatusCheckedIn,
+			Status:          models.BookStatusCheckedIn,
 		}
 
 		s.On("Get", id).Return(book, true, nil)

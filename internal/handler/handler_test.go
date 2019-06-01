@@ -23,32 +23,32 @@ func TestCreateBookHandler(t *testing.T) {
 		for name, tc := range map[string]struct {
 			book *models.Book
 		}{
-			"nil book": { book: nil },
-			"nil title": { book: &models.Book{
-				Title: nil,
-				Author: &author,
-				Publisher: &publisher,
+			"nil book": {book: nil},
+			"nil title": {book: &models.Book{
+				Title:           nil,
+				Author:          &author,
+				Publisher:       &publisher,
 				PublicationDate: &date,
-			} },
-			"nil author": { book: &models.Book{
-				Title: &title,
-				Author: nil,
-				Publisher: &publisher,
+			}},
+			"nil author": {book: &models.Book{
+				Title:           &title,
+				Author:          nil,
+				Publisher:       &publisher,
 				PublicationDate: &date,
-			} },
-			"nil publisher": { book: &models.Book{
-				Title: &title,
-				Author: &author,
-				Publisher: nil,
+			}},
+			"nil publisher": {book: &models.Book{
+				Title:           &title,
+				Author:          &author,
+				Publisher:       nil,
 				PublicationDate: &date,
-			} },
-			"nil publication date": { book: &models.Book{
-				Title: &title,
-				Author: &author,
-				Publisher: &publisher,
+			}},
+			"nil publication date": {book: &models.Book{
+				Title:           &title,
+				Author:          &author,
+				Publisher:       &publisher,
 				PublicationDate: nil,
-			} },
-		}{
+			}},
+		} {
 			t.Run(name, func(t *testing.T) {
 				h := Handler{}
 				res := h.CreateBookHandler(operations.CreateBookParams{Book: tc.book})
@@ -65,9 +65,9 @@ func TestCreateBookHandler(t *testing.T) {
 		publisher := fake.Company()
 		date := strfmt.Date(time.Now())
 		book := models.Book{
-			Title: &title,
-			Author: &author,
-			Publisher: &publisher,
+			Title:           &title,
+			Author:          &author,
+			Publisher:       &publisher,
 			PublicationDate: &date,
 		}
 
@@ -85,9 +85,9 @@ func TestCreateBookHandler(t *testing.T) {
 		publisher := fake.Company()
 		date := strfmt.Date(time.Now())
 		book := models.Book{
-			Title: &title,
-			Author: &author,
-			Publisher: &publisher,
+			Title:           &title,
+			Author:          &author,
+			Publisher:       &publisher,
 			PublicationDate: &date,
 		}
 		retBook := book
@@ -160,10 +160,10 @@ func TestGetAllBooksHandler(t *testing.T) {
 		publisher := fake.Company()
 		date := strfmt.Date(time.Now())
 		book := models.Book{
-			ID: id(),
-			Title: &title,
-			Author: &author,
-			Publisher: &publisher,
+			ID:              id(),
+			Title:           &title,
+			Author:          &author,
+			Publisher:       &publisher,
 			PublicationDate: &date,
 		}
 		books := []*models.Book{&book}
@@ -212,10 +212,10 @@ func TestGetBookHandler(t *testing.T) {
 		date := strfmt.Date(time.Now())
 		id := id()
 		book := models.Book{
-			ID: id,
-			Title: &title,
-			Author: &author,
-			Publisher: &publisher,
+			ID:              id,
+			Title:           &title,
+			Author:          &author,
+			Publisher:       &publisher,
 			PublicationDate: &date,
 		}
 
@@ -245,7 +245,7 @@ func TestUpdateBookHandler(t *testing.T) {
 			res := h.UpdateBookHandler(
 				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: int64(rate)}})
 			assert.Equal(t, &operations.UpdateBookNotFound{Payload: &models.Error{Message: err.Error()}},
-			res.(*operations.UpdateBookNotFound))
+				res.(*operations.UpdateBookNotFound))
 			c.AssertExpectations(t)
 		})
 
@@ -311,7 +311,7 @@ func TestUpdateBookHandler(t *testing.T) {
 			c.AssertExpectations(t)
 		})
 	})
-	
+
 	t.Run("rate success", func(t *testing.T) {
 		c := mocks.BookController{}
 		h := Handler{&c}

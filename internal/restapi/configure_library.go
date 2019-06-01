@@ -43,31 +43,21 @@ func configureAPI(api *operations.LibraryAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.CreateBookHandler == nil {
-		api.CreateBookHandler = operations.CreateBookHandlerFunc(func(params operations.CreateBookParams) middleware.Responder {
-			return h.CreateBookHandler(params)
-		})
-	}
-	if api.DeleteBookHandler == nil {
-		api.DeleteBookHandler = operations.DeleteBookHandlerFunc(func(params operations.DeleteBookParams) middleware.Responder {
-			return h.DeleteBookHandler(params)
-		})
-	}
-	if api.GetAllBooksHandler == nil {
-		api.GetAllBooksHandler = operations.GetAllBooksHandlerFunc(func(params operations.GetAllBooksParams) middleware.Responder {
-			return h.GetAllBooksHandler(params)
-		})
-	}
-	if api.GetBookHandler == nil {
-		api.GetBookHandler = operations.GetBookHandlerFunc(func(params operations.GetBookParams) middleware.Responder {
-			return h.GetBookHandler(params)
-		})
-	}
-	if api.UpdateBookHandler == nil {
-		api.UpdateBookHandler = operations.UpdateBookHandlerFunc(func(params operations.UpdateBookParams) middleware.Responder {
-			return h.UpdateBookHandler(params)
-		})
-	}
+	api.CreateBookHandler = operations.CreateBookHandlerFunc(func(params operations.CreateBookParams) middleware.Responder {
+		return h.CreateBookHandler(params)
+	})
+	api.DeleteBookHandler = operations.DeleteBookHandlerFunc(func(params operations.DeleteBookParams) middleware.Responder {
+		return h.DeleteBookHandler(params)
+	})
+	api.GetAllBooksHandler = operations.GetAllBooksHandlerFunc(func(params operations.GetAllBooksParams) middleware.Responder {
+		return h.GetAllBooksHandler(params)
+	})
+	api.GetBookHandler = operations.GetBookHandlerFunc(func(params operations.GetBookParams) middleware.Responder {
+		return h.GetBookHandler(params)
+	})
+	api.UpdateBookHandler = operations.UpdateBookHandlerFunc(func(params operations.UpdateBookParams) middleware.Responder {
+		return h.UpdateBookHandler(params)
+	})
 
 	api.ServerShutdown = func() {}
 

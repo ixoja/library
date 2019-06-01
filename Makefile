@@ -11,6 +11,13 @@ GOCLEAN   = $(GOCMD) clean
 GOTEST    = $(GOCMD) test -race -v -count=1
 GOLINT    = golangci-lint
 
+# Basic docker commands
+KILLALL      = killall
+DOCKER       = docker
+IMAGE        = library
+DOCKERBUILD  = $(DOCKER) build
+DOCKERRUN    = $(DOCKER) run
+
 # Binary output name
 BINARY = shorten.exe
 
@@ -84,7 +91,7 @@ build:
 	@echo -e $(GREEN_COLOR)[build]$(DEFAULT_COLOR)
 	@$(GOBUILD) -v -o $(BIN_PATH)/$(BINARY)
 
-docker: build
+docker:
 	@echo -e $(GREEN_COLOR)[DOCKER]$(DEFAULT_COLOR)
 	$(DOCKERBUILD) -t $(IMAGE) $(BUILD_DIR)
-    $(DOCKERRUN) --rm -ti $(IMAGE)
+	$(DOCKERRUN) --rm -ti $(IMAGE)

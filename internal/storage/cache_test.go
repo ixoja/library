@@ -149,12 +149,12 @@ func TestCache_Update(t *testing.T) {
 		require.NoError(t, err)
 
 		updBook := &models.Book{
-			ID: newBook.ID,
+			ID:              newBook.ID,
 			Title:           &title,
 			Author:          &author,
 			Publisher:       &publisher,
 			PublicationDate: &date,
-			Status: models.BookStatusCheckedIn,
+			Status:          models.BookStatusCheckedIn,
 		}
 		err = c.Update(updBook)
 		require.NoError(t, err)
