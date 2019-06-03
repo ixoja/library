@@ -1,7 +1,7 @@
 # library
 This is a simple REST API designed to manage a list of books. [go-swagger](https://github.com/go-swagger/go-swagger) was used to generate code. 
 And [go-cache](https://github.com/patrickmn/go-cache/) is used as a simple key-value storage.
-For info on operations please refer to swagger spec [here](../blob/master/internal/api/spec.yaml).
+For info on operations please refer to swagger spec [here](../master/internal/api/spec.yaml).
 
 # Docker
 To run the library in docker I use an image with `golang` installed and build my project inside (`docker build .`).
