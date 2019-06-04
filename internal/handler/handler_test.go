@@ -71,7 +71,7 @@ func TestCreateBookHandler(t *testing.T) {
 			PublicationDate: &date,
 		}
 
-		c.On("Save", &book).Return(nil, controller.ErrInternal)
+		c.On("Create", &book).Return(nil, controller.ErrInternal)
 		res := h.CreateBookHandler(operations.CreateBookParams{Book: &book})
 		assert.IsType(t, &operations.CreateBookInternalServerError{}, res)
 		c.AssertExpectations(t)
@@ -93,7 +93,7 @@ func TestCreateBookHandler(t *testing.T) {
 		retBook := book
 		retBook.ID = id()
 
-		c.On("Save", &book).Return(&retBook, nil)
+		c.On("Create", &book).Return(&retBook, nil)
 		res := h.CreateBookHandler(operations.CreateBookParams{Book: &book})
 		assert.Equal(t, &operations.CreateBookOK{Payload: &retBook}, res.(*operations.CreateBookOK))
 		c.AssertExpectations(t)
@@ -238,12 +238,12 @@ func TestUpdateBookHandler(t *testing.T) {
 			c := mocks.BookController{}
 			h := Handler{&c}
 			id := id()
-			rate := 1
+			rate := int64(1)
 			err := controller.ErrNotFound
 
 			c.On("Rate", id.String(), rate).Return(err)
 			res := h.UpdateBookHandler(
-				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: int64(rate)}})
+				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: rate}})
 			assert.Equal(t, &operations.UpdateBookNotFound{Payload: &models.Error{Message: err.Error()}},
 				res.(*operations.UpdateBookNotFound))
 			c.AssertExpectations(t)
@@ -253,12 +253,12 @@ func TestUpdateBookHandler(t *testing.T) {
 			c := mocks.BookController{}
 			h := Handler{&c}
 			id := id()
-			rate := 1
+			rate := int64(1)
 			err := controller.ErrInternal
 
 			c.On("Rate", id.String(), rate).Return(err)
 			res := h.UpdateBookHandler(
-				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: int64(rate)}})
+				operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: rate}})
 			assert.Equal(t, &operations.UpdateBookInternalServerError{Payload: &models.Error{Message: err.Error()}},
 				res.(*operations.UpdateBookInternalServerError))
 			c.AssertExpectations(t)
@@ -316,11 +316,11 @@ func TestUpdateBookHandler(t *testing.T) {
 		c := mocks.BookController{}
 		h := Handler{&c}
 		id := id()
-		rate := 1
+		rate := int64(1)
 
 		c.On("Rate", id.String(), rate).Return(nil)
 		res := h.UpdateBookHandler(
-			operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: int64(rate)}})
+			operations.UpdateBookParams{ID: id, BookUpdate: operations.UpdateBookBody{Rating: rate}})
 		assert.Equal(t, &operations.UpdateBookOK{}, res.(*operations.UpdateBookOK))
 		c.AssertExpectations(t)
 	})

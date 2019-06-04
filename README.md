@@ -6,7 +6,7 @@ For info on operations please refer to swagger spec [here](../master/internal/ap
 # Docker
 To run the library in docker I use an image with `golang` installed and build my project inside (`docker build .`).
 It's a simple way to build, but the image size is huge. I'll fix it in future.
-Then please don't forget to map container port on your host port. I run it n my local machine this way: `docker run -p 8090:8090 [image id]`
+Please don't forget to map container port on your host port. I run it on my local machine this way: `docker run -p 8090:8090 [image id]`
 
 # Query examples
 To query the library API I use Postman. To create a book record call `POST` on `http://192.168.99.100:8090/books` (I run Docker on Windows machine).
